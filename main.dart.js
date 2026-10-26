@@ -74135,7 +74135,7 @@ $0(){var s=this.a
 return s.hT(s.Q)},
 $S:0}
 A.aez.prototype={
-$0(){return this.a.kb("https://docs.google.com/gview?embedded=true&url=https://raw.githubusercontent.com/rahmadabbas01-oss/portofolio-flutter/main/assets/doc/cv-rahmad-abbas.pdf")},
+$0(){return this.a.kb("https://raw.githubusercontent.com/rahmadabbas01-oss/portofolio-flutter/main/assets/doc/cv-rahmad-abbas.pdf")},
 $S:0}
 A.aeA.prototype={
 $2(a,b){var s,r,q,p=null,o=this.a.d
