@@ -309,10 +309,7 @@ class _PortfolioHomeState extends State<PortfolioHome>
                     // TOMBOL CV BARU
                     // ==========================================
                     FilledButton.icon(
-  onPressed: () {
-    final cvUrl = Uri.base.resolve('assets/doc/cv-rahmad-abbas.pdf').toString();
-    _launchURL(cvUrl);
-  },
+  onPressed: () => _launchURL('https://rahmadabbas01-oss.github.io/portofolio-flutter/assets/doc/cv-rahmad-abbas.pdf'),
   icon: const Icon(Icons.description_outlined),
   label: const Text('Lihat CV'),
   style: FilledButton.styleFrom(
