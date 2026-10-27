@@ -348,7 +348,7 @@ final portrait = Center(
         child: AspectRatio(
           // Sesuaikan angka ini dengan bentuk/rasio foto asli Anda:
           // Gunakan 3 / 4, 4 / 5, atau 9 / 16 agar bingkai ikut memanjang ke bawah
-          aspectRatio: 9 / 16, 
+          aspectRatio: 3 / 4, 
           child: Container(
             padding: const EdgeInsets.all(3),
             decoration: BoxDecoration(
@@ -387,8 +387,8 @@ final portrait = Center(
               clipBehavior: Clip.antiAlias,
               child: Image.asset(
                 'assets/foto/profile.jpeg',
-                fit: BoxFit.fitWidth, // Lebar foto dipaksa mentok penuh ke kiri dan kanan tanpa terpotong di samping
-                alignment: Alignment.bottomCenter, // Memastikan bagian bawah (celana) tetap utuh, kelebihan tinggi dipotong dari atas
+                // KUNCI UTAMA: Memastikan seluruh badan tampil utuh tanpa terpotong
+                fit: BoxFit.contain, 
                 width: double.infinity,
                 height: double.infinity,
                 errorBuilder: (context, error, stackTrace) => Container(
