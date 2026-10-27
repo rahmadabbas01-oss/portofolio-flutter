@@ -562,7 +562,7 @@ final portrait = Center(
       );
 
   // ============================================================
-  // SKILLS
+  // SKILLS / KEAHLIAN (Ditingkatkan agar Senada dengan Hubungi Saya)
   // ============================================================
 
   Widget _skills() => _section(
@@ -582,10 +582,11 @@ final portrait = Center(
                     ? 2
                     : 1;
 
+                // Menambahkan ikon khusus untuk setiap kategori skill
                 final groups = [
-                  ('Mobile Development', ['Flutter', 'Dart', 'SQLite']),
-                  ('Web Development', ['Laravel', 'PHP', 'MySQL', 'Bootstrap']),
-                  ('Tools & Others', ['Git', 'Github', 'Android Studio', 'VS Code', 'REST API']),
+                  ('Mobile Development', Icons.smartphone_rounded, ['Flutter', 'Dart', 'SQLite']),
+                  ('Web Development', Icons.web_rounded, ['Laravel', 'PHP', 'MySQL', 'Bootstrap']),
+                  ('Tools & Others', Icons.terminal_rounded, ['Git', 'Github', 'Android Studio', 'VS Code', 'REST API']),
                 ];
 
                 return Wrap(
@@ -595,27 +596,10 @@ final portrait = Center(
                       .map(
                         (g) => SizedBox(
                           width: (c.maxWidth - (count - 1) * 14) / count,
-                          child: _card(
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  g.$1,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: gold,
-                                  ),
-                                ),
-                                const SizedBox(height: 15),
-                                Wrap(
-                                  spacing: 8,
-                                  runSpacing: 8,
-                                  children: g.$2
-                                      .map((s) => _MiniTag(text: s))
-                                      .toList(),
-                                ),
-                              ],
-                            ),
+                          child: _skillCard(
+                            title: g.$1,
+                            icon: g.$2,
+                            skills: g.$3,
                           ),
                         ),
                       )
@@ -626,6 +610,68 @@ final portrait = Center(
           ],
         ),
       );
+
+  // Kartu khusus untuk skill agar memiliki efek hover dan struktur yang rapi
+  Widget _skillCard({
+    required String title,
+    required IconData icon,
+    required List<String> skills,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: panel,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: gold.withValues(alpha: 0.15),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.25),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header Kategori dengan Kotak Ikon Emas
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: gold.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: gold.withValues(alpha: 0.3)),
+                ),
+                child: Icon(icon, color: gold, size: 20),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          // Daftar Tag Skill di Bawahnya
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: skills.map((s) => _MiniTag(text: s)).toList(),
+          ),
+        ],
+      ),
+    );
+  }
 
   // ============================================================
   // PROJECTS (Landscape / Mendatar 16:10)
