@@ -343,7 +343,7 @@ final portrait = Center(
 
       return ConstrainedBox(
         constraints: const BoxConstraints(
-          maxWidth: 280, // Lebar maksimal bingkai di layar
+          maxWidth: 270, // Lebar maksimal bingkai di layar
         ),
         child: AspectRatio(
           // Sesuaikan angka ini dengan bentuk/rasio foto asli Anda:
