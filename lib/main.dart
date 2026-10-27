@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-//import 'package:flutter_svg/flutter_svg.svg';
+//import 'package:flutter_svg/flutter_svg.svg.dart';
 
 void main() => runApp(const PortfolioApp());
 
@@ -381,7 +381,7 @@ class _PortfolioHomeState extends State<PortfolioHome>
                       clipBehavior: Clip.antiAlias,
                       child: Image.asset(
                         'assets/foto/profile.jpeg',
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                         width: double.infinity,
                         height: double.infinity,
                         errorBuilder: (context, error, stackTrace) => Container(
