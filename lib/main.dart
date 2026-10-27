@@ -388,7 +388,7 @@ final portrait = Center(
               child: Image.asset(
                 'assets/foto/profile.jpeg',
                 // KUNCI UTAMA: Memastikan seluruh badan tampil utuh tanpa terpotong
-                fit: BoxFit.contain, 
+                fit: BoxFit.fitWidth, 
                 width: double.infinity,
                 height: double.infinity,
                 errorBuilder: (context, error, stackTrace) => Container(
