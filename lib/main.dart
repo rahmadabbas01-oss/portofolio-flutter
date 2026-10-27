@@ -387,8 +387,8 @@ final portrait = Center(
               clipBehavior: Clip.antiAlias,
               child: Image.asset(
                 'assets/foto/profile.jpeg',
-                // KUNCI UTAMA: Memastikan seluruh badan tampil utuh tanpa terpotong
-                fit: BoxFit.fitWidth, 
+                fit: BoxFit.cover, // Memenuhi bingkai secara penuh tanpa ruang kosong di samping
+                alignment: Alignment.bottomCenter, // KUNCI: Menjaga bawah tetap utuh, potong kelebihan dari atas
                 width: double.infinity,
                 height: double.infinity,
                 errorBuilder: (context, error, stackTrace) => Container(
