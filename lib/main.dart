@@ -343,7 +343,7 @@ final portrait = Center(
 
       return ConstrainedBox(
         constraints: const BoxConstraints(
-          maxWidth: 270, // Lebar maksimal bingkai di layar
+          maxWidth: 280, // Lebar maksimal bingkai di layar
         ),
         child: AspectRatio(
           // Sesuaikan angka ini dengan bentuk/rasio foto asli Anda:
@@ -388,7 +388,7 @@ final portrait = Center(
               child: Image.asset(
                 'assets/foto/profile.jpeg',
                 // KUNCI UTAMA: Memastikan seluruh badan tampil utuh tanpa terpotong
-                fit: BoxFit.contain, 
+                fit: BoxFit.fitWidth, 
                 width: double.infinity,
                 height: double.infinity,
                 errorBuilder: (context, error, stackTrace) => Container(
