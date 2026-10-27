@@ -530,7 +530,7 @@ final portrait = Center(
                   _InfoRow(
                     icon: Icons.location_on_outlined,
                     label: 'Lokasi',
-                    value: 'Indonesia',
+                    value: 'Makassar, Indonesia',
                   ),
                   _InfoRow(
                     icon: Icons.work_outline,
@@ -760,20 +760,22 @@ final portrait = Center(
               const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _SectionTitle(icon: Icons.work_outline, title: 'Pengalaman'),
+                  _SectionTitle(icon: Icons.work_outline, title: 'Pengalaman & Proyek'),
                   SizedBox(height: 18),
                   _TimelineItem(
-                    title: 'Freelancer',
+                    title: 'Flutter Mobile Developer',
                     detail:
-                        'Mengerjakan proyek pengembangan aplikasi mobile '
-                        'dan web untuk klien.',
+                        'Mengembangkan aplikasi mobile lintas platform menggunakan Flutter & Dart, '
+                        'termasuk aplikasi absensi organisasi rumah sakit (absensi_app) dan aplikasi fitness (fitpedia_flutter) '
+                        'dengan state management yang handal.',
                   ),
                   SizedBox(height: 16),
                   _TimelineItem(
-                    title: 'Pengembang Proyek',
+                    title: 'Web & Backend Developer (Laravel)',
                     detail:
-                        'Mengerjakan proyek aplikasi mobile dan web '
-                        'sebagai latihan serta portofolio.',
+                        'Membangun aplikasi manajemen berbasis web menggunakan PHP dan framework Laravel, '
+                        'seperti Sistem Kepegawaian yang mencakup modul registrasi karyawan, struktur divisi, '
+                        'dan pelacakan pelatihan (training tracking).',
                   ),
                 ],
               ),
@@ -786,10 +788,11 @@ final portrait = Center(
                   _SectionTitle(icon: Icons.school_outlined, title: 'Pendidikan'),
                   SizedBox(height: 18),
                   _TimelineItem(
-                    title: 'S1 Sistem Informasi',
+                    title: 'S1 - Sistem Informasi',
                     detail:
-                        'STIMIK MATUARI MANADO\n'
-                        
+                        'STMIK Matuari Manado\n'
+                        'Mempelajari perancangan sistem informasi, pemrograman web dan mobile, '
+                        'serta manajemen basis data.',
                   ),
                 ],
               ),
