@@ -74145,7 +74145,7 @@ o===$&&A.a()
 s=A.hR(30)
 r=A.c([new A.d1(2,B.cs,B.ax.x7(0.35),B.f,22),new A.d1(4,B.cs,B.ax.x7(0.15),B.f,38)],t.sq)
 q=A.hR(27)
-return new A.dw(B.z6,new A.oS(0.8,A.fE(A.fE(A.ak_("assets/foto/profile.jpeg",new A.aew(),B.zb,1/0,1/0),B.b4,p,new A.dk(B.bN,p,p,q,p,p,B.aF),p,p,p,p),B.w,p,new A.dk(p,p,p,s,r,new A.lf(B.W,0,6.283185307179586,B.d_,B.Fg,B.G2,new A.FR(o*2*3.141592653589793)),B.aF),p,p,B.Ct,p),p),p)},
+return new A.dw(B.z6,new A.oS(0.5625,A.fE(A.fE(A.ak_("assets/foto/profile.jpeg",new A.aew(),B.zb,1/0,1/0),B.b4,p,new A.dk(B.bN,p,p,q,p,p,B.aF),p,p,p,p),B.w,p,new A.dk(p,p,p,s,r,new A.lf(B.W,0,6.283185307179586,B.d_,B.Fg,B.G2,new A.FR(o*2*3.141592653589793)),B.aF),p,p,B.Ct,p),p),p)},
 $S:477}
 A.aew.prototype={
 $3(a,b,c){var s=null
