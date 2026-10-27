@@ -334,82 +334,106 @@ class _PortfolioHomeState extends State<PortfolioHome>
               ],
             );
 
-            // Bingkai foto profil dari assets/foto/profile.jpeg
+            // Bingkai foto profil dengan pemanis background (Ambient Glow)
 final portrait = Center(
-  child: AnimatedBuilder(
-    animation: _goldRotationController,
-    builder: (context, child) {
-      final angle = _goldRotationController.value * 2 * math.pi;
-
-      return ConstrainedBox(
-        constraints: const BoxConstraints(
-          maxWidth: 280, // Lebar maksimal bingkai di layar
+  child: Stack(
+    alignment: Alignment.center,
+    children: [
+      // ==========================================
+      // 1. PEMANIS BACKGROUND: Efek Aura / Glow Emas
+      // ==========================================
+      Container(
+        width: 240,
+        height: 300,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(40),
+          gradient: RadialGradient(
+            colors: [
+              gold.withValues(alpha: 0.35), // Warna pendaran cahaya emas di tengah
+              gold.withValues(alpha: 0.0),  // Memudar ke transparan di luar
+            ],
+            radius: 0.85,
+          ),
         ),
-        child: AspectRatio(
-          // Sesuaikan angka ini dengan bentuk/rasio foto asli Anda:
-          // Gunakan 3 / 4, 4 / 5, atau 9 / 16 agar bingkai ikut memanjang ke bawah
-          aspectRatio: 3 / 4, 
-          child: Container(
-            padding: const EdgeInsets.all(3),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              gradient: SweepGradient(
-                transform: GradientRotation(angle),
-                colors: const [
-                  Color(0xFFFFD700),
-                  Color(0xFF8A5A00),
-                  Color(0xFFFFF4B0),
-                  Color(0xFFFFB700),
-                  Colors.white,
-                  Color(0xFFB8860B),
-                  Color(0xFFFFD700),
-                ],
-                stops: const [0.0, 0.18, 0.32, 0.48, 0.55, 0.78, 1.0],
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: gold.withValues(alpha: 0.35),
-                  blurRadius: 22,
-                  spreadRadius: 2,
-                ),
-                BoxShadow(
-                  color: gold.withValues(alpha: 0.15),
-                  blurRadius: 38,
-                  spreadRadius: 4,
-                ),
-              ],
+      ),
+
+      // ==========================================
+      // 2. BINGKAI UTAMA & FOTO PROFIL
+      // ==========================================
+      AnimatedBuilder(
+        animation: _goldRotationController,
+        builder: (context, child) {
+          final angle = _goldRotationController.value * 2 * math.pi;
+
+          return ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 280, 
             ),
-            child: Container(
-              decoration: BoxDecoration(
-                color: ink,
-                borderRadius: BorderRadius.circular(27),
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: Image.asset(
-                'assets/foto/profile.jpeg',
-                // KUNCI UTAMA: Memastikan seluruh badan tampil utuh tanpa terpotong
-                fit: BoxFit.fitWidth, 
-                width: double.infinity,
-                height: double.infinity,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  color: panel2,
-                  child: const Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.broken_image_outlined, color: muted, size: 36),
-                        SizedBox(height: 8),
-                        Text('Foto belum tersedia', style: TextStyle(color: muted, fontSize: 12)),
-                      ],
+            child: AspectRatio(
+              aspectRatio: 3 / 4, 
+              child: Container(
+                padding: const EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  gradient: SweepGradient(
+                    transform: GradientRotation(angle),
+                    colors: const [
+                      Color(0xFFFFD700),
+                      Color(0xFF8A5A00),
+                      Color(0xFFFFF4B0),
+                      Color(0xFFFFB700),
+                      Colors.white,
+                      Color(0xFFB8860B),
+                      Color(0xFFFFD700),
+                    ],
+                    stops: const [0.0, 0.18, 0.32, 0.48, 0.55, 0.78, 1.0],
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: gold.withValues(alpha: 0.35),
+                      blurRadius: 22,
+                      spreadRadius: 2,
+                    ),
+                    BoxShadow(
+                      color: gold.withValues(alpha: 0.15),
+                      blurRadius: 38,
+                      spreadRadius: 4,
+                    ),
+                  ],
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: ink,
+                    borderRadius: BorderRadius.circular(27),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: Image.asset(
+                    'assets/foto/profile.jpeg',
+                    fit: BoxFit.fitWidth, // Lebar mentok kiri-kanan tanpa terpotong
+                    alignment: Alignment.bottomCenter, // Bagian bawah (celana) aman tidak terpotong
+                    width: double.infinity,
+                    height: double.infinity,
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      color: panel2,
+                      child: const Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.broken_image_outlined, color: muted, size: 36),
+                            SizedBox(height: 8),
+                            Text('Foto belum tersedia', style: TextStyle(color: muted, fontSize: 12)),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ),
-      );
-    },
+          );
+        },
+      ),
+    ],
   ),
 );
 
