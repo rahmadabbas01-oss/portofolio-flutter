@@ -911,7 +911,7 @@ final portrait = Center(
       );
 
   // ============================================================
-  // CONTACT / HUBUNGI SAYA (Interaktif)
+  // CONTACT / HUBUNGI SAYA (Mode Gelap Konsisten)
   // ============================================================
 
   Widget _contact() => _section(
@@ -932,29 +932,41 @@ final portrait = Center(
               spacing: 16,
               runSpacing: 16,
               children: [
-                _interactiveCard(
-                  icon: Icons.email_outlined,
-                  title: 'Email',
-                  subtitle: 'rahmad.abbas01@gmail.com',
-                  onTap: () => _launchURL('mailto:rahmad.abbas01@gmail.com'),
+                SizedBox(
+                  width: 280,
+                  child: _interactiveCard(
+                    icon: Icons.email_outlined,
+                    title: 'Email',
+                    subtitle: 'rahmad.abbas01@gmail.com',
+                    onTap: () => _launchURL('mailto:rahmad.abbas01@gmail.com'),
+                  ),
                 ),
-                _interactiveCard(
-                  icon: Icons.phone_outlined,
-                  title: 'Telepon / WhatsApp',
-                  subtitle: '+62 853-4091-8541',
-                  onTap: () => _launchURL('https://wa.me/6285340918541'),
+                SizedBox(
+                  width: 280,
+                  child: _interactiveCard(
+                    icon: Icons.phone_outlined,
+                    title: 'Telepon / WhatsApp',
+                    subtitle: '+62 853-4091-8541',
+                    onTap: () => _launchURL('https://wa.me/6285340918541'),
+                  ),
                 ),
-                _interactiveCard(
-                  icon: Icons.code_rounded,
-                  title: 'GitHub',
-                  subtitle: 'github.com/rahmadabbas01-oss',
-                  onTap: () => _launchURL('https://github.com/rahmadabbas01-oss'),
+                SizedBox(
+                  width: 280,
+                  child: _interactiveCard(
+                    icon: Icons.code_rounded,
+                    title: 'GitHub',
+                    subtitle: 'github.com/rahmadabbas01-oss',
+                    onTap: () => _launchURL('https://github.com/rahmadabbas01-oss'),
+                  ),
                 ),
-                _interactiveCard(
-                  icon: Icons.camera_alt_outlined,
-                  title: 'Instagram',
-                  subtitle: '@rahmadrabbas',
-                  onTap: () => _launchURL('https://instagram.com/rahmadrabbas'),
+                SizedBox(
+                  width: 280,
+                  child: _interactiveCard(
+                    icon: Icons.camera_alt_outlined,
+                    title: 'Instagram',
+                    subtitle: '@rahmadrabbas',
+                    onTap: () => _launchURL('https://instagram.com/rahmadrabbas'),
+                  ),
                 ),
               ],
             ),
@@ -968,36 +980,64 @@ final portrait = Center(
     required String subtitle,
     required VoidCallback onTap,
   }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: panel2,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFF202A34)),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, color: gold, size: 24),
-            const SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: const TextStyle(color: muted, fontSize: 12)),
-                const SizedBox(height: 2),
-                Text(
-                  subtitle,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        hoverColor: gold.withValues(alpha: 0.08),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: panel2,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: gold.withValues(alpha: 0.15),
             ),
-          ],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.25),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              // Wadah Ikon dengan Pendaran Emas
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: gold.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: gold.withValues(alpha: 0.3)),
+                ),
+                child: Icon(icon, color: gold, size: 22),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(color: muted, fontSize: 11, fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                        color: Colors.white,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
