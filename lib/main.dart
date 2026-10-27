@@ -348,7 +348,7 @@ final portrait = Center(
         child: AspectRatio(
           // Sesuaikan angka ini dengan bentuk/rasio foto asli Anda:
           // Gunakan 3 / 4, 4 / 5, atau 9 / 16 agar bingkai ikut memanjang ke bawah
-          aspectRatio: 4 / 5, 
+          aspectRatio: 9 / 16, 
           child: Container(
             padding: const EdgeInsets.all(3),
             decoration: BoxDecoration(
