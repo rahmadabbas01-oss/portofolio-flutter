@@ -41,7 +41,9 @@ class _ContactSectionState extends State<ContactSection> {
 
     if (name.isEmpty || email.isEmpty || message.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Harap isi Nama, Email, dan Pesan terlebih dahulu.')),
+        const SnackBar(
+          content: Text('Harap isi Nama, Email, dan Pesan terlebih dahulu.'),
+        ),
       );
       return;
     }
@@ -61,13 +63,17 @@ class _ContactSectionState extends State<ContactSection> {
       'Nama: $name\nEmail Pengirim: $email\n\nPesan:\n$message',
     );
 
-    final emailUrl = 'mailto:$recipientEmail?subject=$emailSubject&body=$emailBody';
+    final emailUrl =
+        'mailto:$recipientEmail?subject=$emailSubject&body=$emailBody';
     _launchURL(emailUrl);
   }
 
   @override
   Widget build(BuildContext context) {
+    final palette = AppColors.of(context);
+
     return section(
+      context: context,
       child: LayoutBuilder(
         builder: (context, constraints) {
           final isWide = constraints.maxWidth > 900;
@@ -76,54 +82,69 @@ class _ContactSectionState extends State<ContactSection> {
           final leftContent = Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Hubungi saya',
-                style: TextStyle(color: muted, fontSize: 13, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                  color: palette.textSecondary,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
               const SizedBox(height: 6),
-              const Text(
+              Text(
                 'Mari bekerja sama!',
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: palette.textPrimary,
                 ),
               ),
               const SizedBox(height: 12),
-              const Text(
+              Text(
                 'Punya proyek, ide, atau sekadar ingin menyapa? Kirim pesan dan saya akan membalas secepatnya.',
-                style: TextStyle(color: muted, height: 1.6, fontSize: 14),
+                style: TextStyle(
+                  color: palette.textSecondary,
+                  height: 1.6,
+                  fontSize: 14,
+                ),
               ),
               const SizedBox(height: 28),
               _contactInfoCard(
+                palette: palette,
                 title: 'Email',
                 subtitle: 'rahmadrinaldiabbas@gmail.com',
                 onTap: () => _launchURL('mailto:rahmadrinaldiabbas@gmail.com'),
               ),
               const SizedBox(height: 12),
               _contactInfoCard(
+                palette: palette,
                 title: 'WhatsApp / Telepon',
                 subtitle: '+62 853-4091-8541',
                 onTap: () => _launchURL('https://wa.me/6285340918541'),
               ),
               const SizedBox(height: 12),
               _contactInfoCard(
+                palette: palette,
                 title: 'GitHub',
                 subtitle: 'rahmadabbas01-oss',
                 onTap: () => _launchURL('https://github.com/rahmadabbas01-oss'),
               ),
-              
             ],
           );
 
           // Bagian Kanan: Form Kirim Pesan
           final rightContent = card(
+            context: context,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Kirim pesan',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: palette.textPrimary,
+                  ),
                 ),
                 const SizedBox(height: 16),
 
@@ -132,18 +153,27 @@ class _ContactSectionState extends State<ContactSection> {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: Colors.green.withValues(alpha: 0.15),
+                      color: Colors.green.withValues(
+                        alpha: palette.isDark ? 0.15 : 0.12,
+                      ),
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.green.withValues(alpha: 0.4)),
+                      border: Border.all(
+                        color: Colors.green.withValues(alpha: 0.4),
+                      ),
                     ),
-                    child: const Row(
+                    child: Row(
                       children: [
-                        Icon(Icons.check, color: Colors.green, size: 18),
-                        SizedBox(width: 8),
+                        const Icon(Icons.check, color: Colors.green, size: 18),
+                        const SizedBox(width: 8),
                         Expanded(
                           child: Text(
                             'Terima kasih! Pesanmu telah terkirim. Saya akan segera membalas.',
-                            style: TextStyle(color: Colors.greenAccent, fontSize: 13),
+                            style: TextStyle(
+                              color: palette.isDark
+                                  ? Colors.greenAccent
+                                  : Colors.green.shade800,
+                              fontSize: 13,
+                            ),
                           ),
                         ),
                       ],
@@ -156,24 +186,54 @@ class _ContactSectionState extends State<ContactSection> {
                 if (isWide)
                   Row(
                     children: [
-                      Expanded(child: _buildField(label: 'Nama', hint: 'Rahmad Rinaldi Abbas', controller: _nameController)),
+                      Expanded(
+                        child: _buildField(
+                          palette: palette,
+                          label: 'Nama',
+                          hint: 'Rahmad Rinaldi Abbas',
+                          controller: _nameController,
+                        ),
+                      ),
                       const SizedBox(width: 14),
-                      Expanded(child: _buildField(label: 'Email', hint: 'rahmadrinaldiabbas@gmail.com', controller: _emailController)),
+                      Expanded(
+                        child: _buildField(
+                          palette: palette,
+                          label: 'Email',
+                          hint: 'rahmadrinaldiabbas@gmail.com',
+                          controller: _emailController,
+                        ),
+                      ),
                     ],
                   )
                 else ...[
-                  _buildField(label: 'Nama', hint: 'Rahmad Rinaldi Abbas', controller: _nameController),
+                  _buildField(
+                    palette: palette,
+                    label: 'Nama',
+                    hint: 'Rahmad Rinaldi Abbas',
+                    controller: _nameController,
+                  ),
                   const SizedBox(height: 14),
-                  _buildField(label: 'Email', hint: 'rahmadrinaldiabbas@gmail.com', controller: _emailController),
+                  _buildField(
+                    palette: palette,
+                    label: 'Email',
+                    hint: 'rahmadrinaldiabbas@gmail.com',
+                    controller: _emailController,
+                  ),
                 ],
                 const SizedBox(height: 14),
 
                 // Baris 2: Subjek
-                _buildField(label: 'Subjek', hint: 'Proyek website', controller: _subjectController),
+                _buildField(
+                  palette: palette,
+                  label: 'Subjek',
+                  hint: 'Proyek website',
+                  controller: _subjectController,
+                ),
                 const SizedBox(height: 14),
 
                 // Baris 3: Pesan
                 _buildField(
+                  palette: palette,
                   label: 'Pesan',
                   hint: 'Ceritakan tentang proyekmu...',
                   controller: _messageController,
@@ -198,7 +258,10 @@ class _ContactSectionState extends State<ContactSection> {
                     icon: const Icon(Icons.send_rounded, size: 16),
                     label: const Text(
                       'Kirim pesan',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
                     ),
                   ),
                 ),
@@ -230,6 +293,7 @@ class _ContactSectionState extends State<ContactSection> {
   }
 
   Widget _contactInfoCard({
+    required AppColors palette,
     required String title,
     required String subtitle,
     required VoidCallback onTap,
@@ -240,22 +304,30 @@ class _ContactSectionState extends State<ContactSection> {
         onTap: onTap,
         borderRadius: BorderRadius.circular(14),
         hoverColor: gold.withValues(alpha: 0.08),
-        child: Container(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 220),
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           decoration: BoxDecoration(
-            color: panel2,
+            color: palette.cardBg,
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: gold.withValues(alpha: 0.12)),
+            border: Border.all(color: palette.borderColor),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: const TextStyle(color: muted, fontSize: 11)),
+              Text(
+                title,
+                style: TextStyle(color: palette.textSecondary, fontSize: 11),
+              ),
               const SizedBox(height: 3),
               Text(
                 subtitle,
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                style: TextStyle(
+                  color: palette.textPrimary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 13,
+                ),
                 overflow: TextOverflow.ellipsis,
               ),
             ],
@@ -266,6 +338,7 @@ class _ContactSectionState extends State<ContactSection> {
   }
 
   Widget _buildField({
+    required AppColors palette,
     required String label,
     required String hint,
     required TextEditingController controller,
@@ -274,29 +347,39 @@ class _ContactSectionState extends State<ContactSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500)),
+        Text(
+          label,
+          style: TextStyle(
+            color: palette.textPrimary,
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
         const SizedBox(height: 6),
         TextField(
           controller: controller,
           maxLines: maxLines,
-          style: const TextStyle(color: Colors.white, fontSize: 14),
+          style: TextStyle(color: palette.textPrimary, fontSize: 14),
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: const TextStyle(color: muted, fontSize: 14),
+            hintStyle: TextStyle(color: palette.textSecondary, fontSize: 14),
             filled: true,
-            fillColor: panel2,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            fillColor: palette.isDark ? palette.cardBg : palette.surface,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 14,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: gold.withValues(alpha: 0.15)),
+              borderSide: BorderSide(color: palette.borderColor),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: gold.withValues(alpha: 0.15)),
+              borderSide: BorderSide(color: palette.borderColor),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: Color(0xFF6C5CE7)),
+              borderSide: BorderSide(color: palette.accent, width: 1.5),
             ),
           ),
         ),

@@ -6,7 +6,10 @@ class SkillsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = AppColors.of(context);
+
     return section(
+      context: context,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -59,6 +62,7 @@ class SkillsSection extends StatelessWidget {
                       (g) => SizedBox(
                         width: (c.maxWidth - (count - 1) * 14) / count,
                         child: _skillCard(
+                          palette: palette,
                           title: g.$1,
                           skills: g.$2,
                         ),
@@ -74,20 +78,22 @@ class SkillsSection extends StatelessWidget {
   }
 
   Widget _skillCard({
+    required AppColors palette,
     required String title,
     required List<(String, String)> skills,
   }) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 220),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: panel2,
+        color: palette.cardBg,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: gold.withValues(alpha: 0.15),
+          color: palette.borderColor,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.25),
+            color: palette.shadowColor,
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -98,10 +104,10 @@ class SkillsSection extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 15,
-              color: Colors.white,
+              color: palette.textPrimary,
             ),
           ),
           const SizedBox(height: 16),
@@ -115,7 +121,7 @@ class SkillsSection extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: gold.withValues(alpha: 0.22)),
+                  border: Border.all(color: gold.withValues(alpha: 0.25)),
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -125,8 +131,11 @@ class SkillsSection extends StatelessWidget {
                       width: 44,
                       height: 44,
                       fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) =>
-                          const Icon(Icons.code, size: 32, color: gold),
+                      errorBuilder: (context, error, stackTrace) => Icon(
+                        Icons.code,
+                        size: 32,
+                        color: palette.accent,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -134,10 +143,10 @@ class SkillsSection extends StatelessWidget {
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
-                        color: Colors.white,
+                        color: palette.textPrimary,
                         height: 1.25,
                       ),
                     ),

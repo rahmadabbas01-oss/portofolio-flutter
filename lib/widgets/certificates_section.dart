@@ -6,19 +6,21 @@ class CertificatesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = AppColors.of(context);
+
     return section(
-      background: panel,
+      context: context,
+      background: palette.surface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SectionTitle(
-            icon: Icons.workspace_premium_outlined,
             title: 'Sertifikat',
           ),
           const SizedBox(height: 8),
-          const Text(
+          Text(
             'Sertifikat pelatihan dan pengembangan kemampuan saya.',
-            style: TextStyle(color: muted, height: 1.6),
+            style: TextStyle(color: palette.textSecondary, height: 1.6),
           ),
           const SizedBox(height: 22),
           LayoutBuilder(
@@ -51,6 +53,7 @@ class CertificatesSection extends StatelessWidget {
                   return SizedBox(
                     width: itemWidth,
                     child: card(
+                      context: context,
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -62,15 +65,27 @@ class CertificatesSection extends StatelessWidget {
                                 certificate.$4,
                                 width: double.infinity,
                                 fit: BoxFit.contain,
-                                errorBuilder: (context, error, stackTrace) => Container(
-                                  color: panel2,
-                                  child: const Center(
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Container(
+                                  color: palette.cardBg,
+                                  child: Center(
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        Icon(Icons.broken_image_outlined, color: muted, size: 36),
-                                        SizedBox(height: 8),
-                                        Text('Sertifikat belum tersedia', style: TextStyle(color: muted, fontSize: 12)),
+                                        Icon(
+                                          Icons.broken_image_outlined,
+                                          color: palette.textSecondary,
+                                          size: 36,
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          'Sertifikat belum tersedia',
+                                          style: TextStyle(
+                                            color: palette.textSecondary,
+                                            fontSize: 12,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -81,17 +96,17 @@ class CertificatesSection extends StatelessWidget {
                           const SizedBox(height: 14),
                           Text(
                             certificate.$1,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: palette.textPrimary,
                             ),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             certificate.$2,
-                            style: const TextStyle(
-                              color: gold,
+                            style: TextStyle(
+                              color: palette.accent,
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
                             ),
@@ -99,8 +114,8 @@ class CertificatesSection extends StatelessWidget {
                           const SizedBox(height: 2),
                           Text(
                             certificate.$3,
-                            style: const TextStyle(
-                              color: muted,
+                            style: TextStyle(
+                              color: palette.textSecondary,
                               fontSize: 12,
                             ),
                           ),

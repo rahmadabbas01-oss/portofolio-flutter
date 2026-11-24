@@ -6,19 +6,21 @@ class ProjectsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = AppColors.of(context);
+
     return section(
-      background: panel,
+      context: context,
+      background: palette.surface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SectionTitle(
-            icon: Icons.folder_open_rounded,
             title: 'Proyek Pilihan',
           ),
           const SizedBox(height: 8),
-          const Text(
+          Text(
             'Beberapa proyek yang pernah saya kerjakan',
-            style: TextStyle(color: muted),
+            style: TextStyle(color: palette.textSecondary),
           ),
           const SizedBox(height: 22),
           LayoutBuilder(
@@ -58,6 +60,7 @@ class ProjectsSection extends StatelessWidget {
                       (p) => SizedBox(
                         width: (c.maxWidth - (count - 1) * 16) / count,
                         child: card(
+                          context: context,
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -69,15 +72,27 @@ class ProjectsSection extends StatelessWidget {
                                     p.$3,
                                     width: double.infinity,
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => Container(
-                                      color: panel2,
-                                      child: const Center(
+                                    errorBuilder: (context, error, stackTrace) =>
+                                        Container(
+                                      color: palette.cardBg,
+                                      child: Center(
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
-                                            Icon(Icons.broken_image_outlined, color: muted, size: 36),
-                                            SizedBox(height: 8),
-                                            Text('Gambar belum tersedia', style: TextStyle(color: muted, fontSize: 12)),
+                                            Icon(
+                                              Icons.broken_image_outlined,
+                                              color: palette.textSecondary,
+                                              size: 36,
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              'Gambar belum tersedia',
+                                              style: TextStyle(
+                                                color: palette.textSecondary,
+                                                fontSize: 12,
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -88,16 +103,19 @@ class ProjectsSection extends StatelessWidget {
                               const SizedBox(height: 16),
                               Text(
                                 p.$1,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                                  color: palette.textPrimary,
                                 ),
                               ),
                               const SizedBox(height: 8),
                               Text(
                                 p.$2,
-                                style: const TextStyle(color: muted, height: 1.6),
+                                style: TextStyle(
+                                  color: palette.textSecondary,
+                                  height: 1.6,
+                                ),
                               ),
                               const SizedBox(height: 14),
                               // Tag teknologi dengan background transparan & garis tepi (frame) warna Gold
@@ -106,20 +124,23 @@ class ProjectsSection extends StatelessWidget {
                                 runSpacing: 6,
                                 children: p.$4.map((s) {
                                   return Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 5,
+                                    ),
                                     decoration: BoxDecoration(
-                                      color: Colors.transparent, // Background transparan
+                                      color: Colors.transparent,
                                       borderRadius: BorderRadius.circular(8),
                                       border: Border.all(
-                                        color: gold.withValues(alpha: 0.4), // Garis tepi / frame warna gold
+                                        color: gold.withValues(alpha: 0.45),
                                       ),
                                     ),
                                     child: Text(
                                       s,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
-                                        color: Colors.white, // Teks warna putih
+                                        color: palette.textPrimary,
                                       ),
                                     ),
                                   );

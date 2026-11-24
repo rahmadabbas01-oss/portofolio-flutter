@@ -6,6 +6,8 @@ class AiChatButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = AppColors.of(context);
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 16, right: 8),
       child: FloatingActionButton.extended(
@@ -17,20 +19,24 @@ class AiChatButton extends StatelessWidget {
             builder: (context) => const AiChatModalContent(),
           );
         },
-        backgroundColor: panel2,
-        foregroundColor: gold,
+        backgroundColor: palette.cardBg,
+        foregroundColor: palette.accent,
         elevation: 6,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
-          side: BorderSide(color: gold.withValues(alpha: 0.3)),
+          side: BorderSide(color: palette.borderColor),
         ),
-        icon: const Icon(Icons.chat_bubble_outline_rounded, size: 18, color: gold),
-        label: const Text(
+        icon: Icon(
+          Icons.chat_bubble_outline_rounded,
+          size: 18,
+          color: palette.accent,
+        ),
+        label: Text(
           'Tanya AI',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 13,
-            color: Colors.white,
+            color: palette.textPrimary,
           ),
         ),
       ),
@@ -49,10 +55,11 @@ class _AiChatModalContentState extends State<AiChatModalContent> {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
-  final List<Map<String, String>> _messages = [
+  final _messages = [
     {
       'sender': 'ai',
-      'text': 'Halo! Saya asisten AI di website ini. Tanyakan apa saja tentang skill, layanan, atau project Rahmad. Kalau ingin kerjasama, pesanmu bisa saya teruskan.'
+      'text':
+          'Halo! Saya asisten AI di website ini. Tanyakan apa saja tentang skill, layanan, atau project Rahmad. Kalau ingin kerjasama, pesanmu bisa saya teruskan.'
     }
   ];
 
@@ -75,7 +82,8 @@ class _AiChatModalContentState extends State<AiChatModalContent> {
         _isTyping = false;
         _messages.add({
           'sender': 'ai',
-          'text': 'Terima kasih atas pertanyaannya! Pesan seputar "${text.trim()}" telah dicatat. Anda juga dapat menghubungi Rahmad secara langsung melalui menu kontak.'
+          'text':
+              'Terima kasih atas pertanyaannya! Pesan seputar "${text.trim()}" telah dicatat. Anda juga dapat menghubungi Rahmad secara langsung melalui menu kontak.'
         });
       });
       _scrollToBottom();
@@ -103,15 +111,17 @@ class _AiChatModalContentState extends State<AiChatModalContent> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = AppColors.of(context);
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.75,
       decoration: BoxDecoration(
-        color: panel,
+        color: palette.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        border: Border.all(color: gold.withValues(alpha: 0.25), width: 1.5),
+        border: Border.all(color: palette.borderColor, width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.5),
+            color: palette.shadowColor,
             blurRadius: 20,
             spreadRadius: 5,
           ),
@@ -123,10 +133,11 @@ class _AiChatModalContentState extends State<AiChatModalContent> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
-              color: panel2.withValues(alpha: 0.8),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+              color: palette.cardBg,
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(24)),
               border: Border(
-                bottom: BorderSide(color: gold.withValues(alpha: 0.15)),
+                bottom: BorderSide(color: palette.borderColor),
               ),
             ),
             child: Row(
@@ -134,12 +145,16 @@ class _AiChatModalContentState extends State<AiChatModalContent> {
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(color: gold, width: 1.5),
+                    border: Border.all(color: palette.accent, width: 1.5),
                   ),
-                  child: const CircleAvatar(
+                  child: CircleAvatar(
                     radius: 18,
-                    backgroundColor: panel,
-                    child: Icon(Icons.smart_toy_rounded, color: gold, size: 20),
+                    backgroundColor: palette.surface,
+                    child: Icon(
+                      Icons.smart_toy_rounded,
+                      color: palette.accent,
+                      size: 20,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -147,10 +162,10 @@ class _AiChatModalContentState extends State<AiChatModalContent> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'Rahmad Rinaldi Abbas',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: palette.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                         ),
@@ -161,15 +176,23 @@ class _AiChatModalContentState extends State<AiChatModalContent> {
                           Container(
                             width: 8,
                             height: 8,
-                            decoration: const BoxDecoration(
-                              color: Colors.greenAccent,
+                            decoration: BoxDecoration(
+                              color: palette.isDark
+                                  ? Colors.greenAccent
+                                  : Colors.green.shade600,
                               shape: BoxShape.circle,
                             ),
                           ),
                           const SizedBox(width: 6),
-                          const Text(
-                            'Asisten AI · biasanya membalas dalam hitungan detik',
-                            style: TextStyle(color: muted, fontSize: 11),
+                          Flexible(
+                            child: Text(
+                              'Asisten AI · biasanya membalas dalam hitungan detik',
+                              style: TextStyle(
+                                color: palette.textSecondary,
+                                fontSize: 11,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),
@@ -177,7 +200,11 @@ class _AiChatModalContentState extends State<AiChatModalContent> {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.refresh_rounded, color: muted, size: 20),
+                  icon: Icon(
+                    Icons.refresh_rounded,
+                    color: palette.textSecondary,
+                    size: 20,
+                  ),
                   onPressed: () {
                     setState(() {
                       if (_messages.length > 1) {
@@ -188,7 +215,11 @@ class _AiChatModalContentState extends State<AiChatModalContent> {
                   tooltip: 'Reset Chat',
                 ),
                 IconButton(
-                  icon: const Icon(Icons.close_rounded, color: Colors.white, size: 20),
+                  icon: Icon(
+                    Icons.close_rounded,
+                    color: palette.textPrimary,
+                    size: 20,
+                  ),
                   onPressed: () => Navigator.pop(context),
                 ),
               ],
@@ -203,17 +234,26 @@ class _AiChatModalContentState extends State<AiChatModalContent> {
               itemCount: _messages.length + (_isTyping ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index == _messages.length && _isTyping) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Row(
                       children: [
                         SizedBox(
                           width: 16,
                           height: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2, color: gold),
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: palette.accent,
+                          ),
                         ),
-                        SizedBox(width: 10),
-                        Text('AI sedang mengetik...', style: TextStyle(color: muted, fontSize: 12)),
+                        const SizedBox(width: 10),
+                        Text(
+                          'AI sedang mengetik...',
+                          style: TextStyle(
+                            color: palette.textSecondary,
+                            fontSize: 12,
+                          ),
+                        ),
                       ],
                     ),
                   );
@@ -223,21 +263,34 @@ class _AiChatModalContentState extends State<AiChatModalContent> {
                 final isUser = msg['sender'] == 'user';
 
                 return Align(
-                  alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+                  alignment:
+                      isUser ? Alignment.centerRight : Alignment.centerLeft,
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 6),
                     padding: const EdgeInsets.all(12),
-                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.75,
+                    ),
                     decoration: BoxDecoration(
-                      color: isUser ? gold.withValues(alpha: 0.2) : panel2,
+                      color: isUser
+                          ? gold.withValues(alpha: palette.isDark ? 0.2 : 0.16)
+                          : palette.cardBg,
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(
-                        color: isUser ? gold.withValues(alpha: 0.4) : gold.withValues(alpha: 0.2),
+                        color: isUser
+                            ? gold.withValues(alpha: 0.45)
+                            : palette.borderColor,
                       ),
                     ),
                     child: Text(
                       msg['text']!,
-                      style: const TextStyle(color: Colors.white70, fontSize: 13.5, height: 1.5),
+                      style: TextStyle(
+                        color: isUser
+                            ? palette.textPrimary
+                            : palette.textSecondary,
+                        fontSize: 13.5,
+                        height: 1.5,
+                      ),
                     ),
                   ),
                 );
@@ -252,11 +305,11 @@ class _AiChatModalContentState extends State<AiChatModalContent> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  _buildQuickChip('Bisa bikin apa aja?'),
+                  _buildQuickChip('Bisa bikin apa aja?', palette),
                   const SizedBox(width: 8),
-                  _buildQuickChip('Lihat project-nya'),
+                  _buildQuickChip('Lihat project-nya', palette),
                   const SizedBox(width: 8),
-                  _buildQuickChip('Saya mau kerjasama'),
+                  _buildQuickChip('Saya mau kerjasama', palette),
                 ],
               ),
             ),
@@ -266,9 +319,9 @@ class _AiChatModalContentState extends State<AiChatModalContent> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: panel2.withValues(alpha: 0.8),
+              color: palette.cardBg,
               border: Border(
-                top: BorderSide(color: gold.withValues(alpha: 0.15)),
+                top: BorderSide(color: palette.borderColor),
               ),
             ),
             child: Column(
@@ -279,24 +332,33 @@ class _AiChatModalContentState extends State<AiChatModalContent> {
                       child: TextField(
                         controller: _controller,
                         onSubmitted: (value) => _sendMessage(value),
-                        style: const TextStyle(color: Colors.white, fontSize: 13.5),
+                        style: TextStyle(
+                          color: palette.textPrimary,
+                          fontSize: 13.5,
+                        ),
                         decoration: InputDecoration(
                           hintText: 'Tulis pesan...',
-                          hintStyle: const TextStyle(color: muted, fontSize: 13.5),
+                          hintStyle: TextStyle(
+                            color: palette.textSecondary,
+                            fontSize: 13.5,
+                          ),
                           filled: true,
-                          fillColor: ink,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          fillColor: palette.bg,
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(24),
-                            borderSide: BorderSide(color: gold.withValues(alpha: 0.2)),
+                            borderSide: BorderSide(color: palette.borderColor),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(24),
-                            borderSide: BorderSide(color: gold.withValues(alpha: 0.2)),
+                            borderSide: BorderSide(color: palette.borderColor),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(24),
-                            borderSide: const BorderSide(color: gold),
+                            borderSide: BorderSide(color: palette.accent),
                           ),
                         ),
                       ),
@@ -315,16 +377,20 @@ class _AiChatModalContentState extends State<AiChatModalContent> {
                         ],
                       ),
                       child: IconButton(
-                        icon: const Icon(Icons.arrow_upward_rounded, color: ink, size: 20),
+                        icon: const Icon(
+                          Icons.arrow_upward_rounded,
+                          color: ink,
+                          size: 20,
+                        ),
                         onPressed: () => _sendMessage(_controller.text),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 10),
-                const Text(
+                Text(
                   'Jawaban AI bisa saja kurang tepat. Pertanyaan serius akan diteruskan ke pemilik.',
-                  style: TextStyle(color: muted, fontSize: 10.5),
+                  style: TextStyle(color: palette.textSecondary, fontSize: 10.5),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -335,14 +401,14 @@ class _AiChatModalContentState extends State<AiChatModalContent> {
     );
   }
 
-  Widget _buildQuickChip(String text) {
+  Widget _buildQuickChip(String text, AppColors palette) {
     return ActionChip(
-      backgroundColor: Colors.transparent,
-      side: BorderSide(color: gold.withValues(alpha: 0.25)),
+      backgroundColor: palette.cardBg,
+      side: BorderSide(color: palette.borderColor),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       label: Text(
         text,
-        style: const TextStyle(color: Colors.white70, fontSize: 12),
+        style: TextStyle(color: palette.textPrimary, fontSize: 12),
       ),
       onPressed: () => _sendMessage(text),
     );

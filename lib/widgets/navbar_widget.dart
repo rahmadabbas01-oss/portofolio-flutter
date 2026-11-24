@@ -13,10 +13,13 @@ class NavbarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: ink,
-        border: Border(bottom: BorderSide(color: Color(0xFF202A34))),
+    final palette = AppColors.of(context);
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      decoration: BoxDecoration(
+        color: palette.bg,
+        border: Border(bottom: BorderSide(color: palette.borderColor)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
       child: Center(
@@ -24,36 +27,69 @@ class NavbarWidget extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: 1180),
           child: LayoutBuilder(
             builder: (context, c) {
-              final compact = c.maxWidth < 760;
+              final compact = c.maxWidth < 860;
 
               return Row(
                 children: [
-                  const Expanded(
+                  Expanded(
                     child: Text(
                       'Rahmad Rinaldi Abbas',
-                      style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 16,
+                        color: palette.textPrimary,
+                      ),
                     ),
                   ),
                   if (!compact) ...[
-                    _navButton('Home', () => onNavigate(keysMap['Home']!)),
-                    _navButton('About', () => onNavigate(keysMap['About']!)),
-                    _navButton('Skills', () => onNavigate(keysMap['Skills']!)),
-                    _navButton('Projects', () => onNavigate(keysMap['Projects']!)),
-                    _navButton('Experience', () => onNavigate(keysMap['Experience']!)),
-                    _navButton('Sertifikat', () => onNavigate(keysMap['Sertifikat']!)),
-                    _navButton('Contact', () => onNavigate(keysMap['Contact']!)),
-                  ] else
+                    _navButton('Home', () => onNavigate(keysMap['Home']!), palette),
+                    _navButton('About', () => onNavigate(keysMap['About']!), palette),
+                    _navButton('Skills', () => onNavigate(keysMap['Skills']!), palette),
+                    _navButton('Projects', () => onNavigate(keysMap['Projects']!), palette),
+                    _navButton(
+                      'Experience',
+                      () => onNavigate(keysMap['Experience']!),
+                      palette,
+                    ),
+                    _navButton(
+                      'Sertifikat',
+                      () => onNavigate(keysMap['Sertifikat']!),
+                      palette,
+                    ),
+                    _navButton(
+                      'Contact',
+                      () => onNavigate(keysMap['Contact']!),
+                      palette,
+                    ),
+                    const SizedBox(width: 10),
+                    const ThemeToggleButton(),
+                  ] else ...[
+                    const ThemeToggleButton(),
+                    const SizedBox(width: 6),
                     PopupMenuButton<String>(
-                      icon: const Icon(Icons.menu_rounded),
-                      color: panel2,
+                      icon: Icon(
+                        Icons.menu_rounded,
+                        color: palette.textPrimary,
+                      ),
+                      color: palette.cardBg,
                       onSelected: (v) {
                         final key = keysMap[v];
                         if (key != null) onNavigate(key);
                       },
                       itemBuilder: (_) => keysMap.keys
-                          .map((s) => PopupMenuItem(value: s, child: Text(s)))
+                          .map(
+                            (s) => PopupMenuItem<String>(
+                              value: s,
+                              child: Text(
+                                s,
+                                style: TextStyle(color: palette.textPrimary),
+                              ),
+                            ),
+                          )
                           .toList(),
                     ),
+                  ],
                 ],
               );
             },
@@ -63,14 +99,19 @@ class NavbarWidget extends StatelessWidget {
     );
   }
 
-  Widget _navButton(String label, VoidCallback onTap) => TextButton(
-        onPressed: onTap,
-        child: Text(
-          label,
-          style: const TextStyle(
-            color: Colors.white70,
-            fontWeight: FontWeight.w600,
-          ),
+  Widget _navButton(String label, VoidCallback onTap, AppColors palette) {
+    return TextButton(
+      onPressed: onTap,
+      style: TextButton.styleFrom(
+        foregroundColor: palette.textSecondary,
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: palette.textSecondary,
+          fontWeight: FontWeight.w600,
         ),
-      );
+      ),
+    );
+  }
 }

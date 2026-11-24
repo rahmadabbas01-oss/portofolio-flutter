@@ -21,20 +21,18 @@ class PortfolioApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Rahmad Rinaldi Abbas | Portfolio',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: ink,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: gold,
-          brightness: Brightness.dark,
-        ),
-        fontFamily: 'Roboto',
-        useMaterial3: true,
-      ),
-      home: const PortfolioHome(),
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeModeNotifier,
+      builder: (context, currentMode, _) {
+        return MaterialApp(
+          title: 'Rahmad Rinaldi Abbas | Portfolio',
+          debugShowCheckedModeBanner: false,
+          theme: buildAppTheme(Brightness.light),
+          darkTheme: buildAppTheme(Brightness.dark),
+          themeMode: currentMode,
+          home: const PortfolioHome(),
+        );
+      },
     );
   }
 }
@@ -96,7 +94,10 @@ class _PortfolioHomeState extends State<PortfolioHome>
 
   @override
   Widget build(BuildContext context) {
+    final palette = AppColors.of(context);
+
     return Scaffold(
+      backgroundColor: palette.bg,
       body: SelectionArea(
         child: Stack(
           children: [
@@ -106,13 +107,33 @@ class _PortfolioHomeState extends State<PortfolioHome>
                 child: CustomScrollView(
                   controller: _scroll,
                   slivers: [
-                    SliverToBoxAdapter(key: homeKey, child: HeroSection(onNavigate: scrollToSection, projectsKey: projectsKey, contactKey: contactKey, rotationController: goldRotationController)),
+                    SliverToBoxAdapter(
+                      key: homeKey,
+                      child: HeroSection(
+                        onNavigate: scrollToSection,
+                        projectsKey: projectsKey,
+                        contactKey: contactKey,
+                        rotationController: goldRotationController,
+                      ),
+                    ),
                     SliverToBoxAdapter(key: aboutKey, child: const AboutSection()),
                     SliverToBoxAdapter(key: skillsKey, child: const SkillsSection()),
-                    SliverToBoxAdapter(key: projectsKey, child: const ProjectsSection()),
-                    SliverToBoxAdapter(key: experienceKey, child: const ExperienceSection()),
-                    SliverToBoxAdapter(key: certificatesKey, child: const CertificatesSection()),
-                    SliverToBoxAdapter(key: contactKey, child: const ContactSection()),
+                    SliverToBoxAdapter(
+                      key: projectsKey,
+                      child: const ProjectsSection(),
+                    ),
+                    SliverToBoxAdapter(
+                      key: experienceKey,
+                      child: const ExperienceSection(),
+                    ),
+                    SliverToBoxAdapter(
+                      key: certificatesKey,
+                      child: const CertificatesSection(),
+                    ),
+                    SliverToBoxAdapter(
+                      key: contactKey,
+                      child: const ContactSection(),
+                    ),
                     const SliverToBoxAdapter(child: FooterWidget()),
                   ],
                 ),
@@ -123,23 +144,26 @@ class _PortfolioHomeState extends State<PortfolioHome>
               left: 0,
               right: 0,
               child: Material(
-                color: ink,
+                color: palette.bg,
                 elevation: 5,
                 child: SafeArea(
                   bottom: false,
-                  child: NavbarWidget(onNavigate: scrollToSection, keysMap: {
-                    'Home': homeKey,
-                    'About': aboutKey,
-                    'Skills': skillsKey,
-                    'Projects': projectsKey,
-                    'Experience': experienceKey,
-                    'Sertifikat': certificatesKey,
-                    'Contact': contactKey,
-                  }),
+                  child: NavbarWidget(
+                    onNavigate: scrollToSection,
+                    keysMap: {
+                      'Home': homeKey,
+                      'About': aboutKey,
+                      'Skills': skillsKey,
+                      'Projects': projectsKey,
+                      'Experience': experienceKey,
+                      'Sertifikat': certificatesKey,
+                      'Contact': contactKey,
+                    },
+                  ),
                 ),
               ),
             ),
-            
+
             // Gabungan Tombol Panah ke Atas & Tombol Tanya AI secara Vertikal di Pojok Kanan Bawah
             Positioned(
               bottom: 16,

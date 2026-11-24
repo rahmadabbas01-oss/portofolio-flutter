@@ -83,11 +83,11 @@ class _HeroSectionState extends State<HeroSection>
       vsync: this,
     )..repeat(reverse: true);
 
-    _nameGlowAnimation = Tween<double>(begin: 0.7, end: 1.0).animate(
+    _nameGlowAnimation = Tween<double>(begin: 0.75, end: 1.0).animate(
       CurvedAnimation(parent: _nameGlowController, curve: Curves.easeInOut),
     );
 
-    // Controller animasi mengetik lebih pelan (~180ms per karakter)
+    // Controller animasi mengetik
     _typewriterController = AnimationController(
       duration: Duration(milliseconds: _roleText.length * 800),
       vsync: this,
@@ -129,8 +129,11 @@ class _HeroSectionState extends State<HeroSection>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: ink,
+    final palette = AppColors.of(context);
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 220),
+      color: palette.bg,
       width: double.infinity,
       child: Center(
         child: ConstrainedBox(
@@ -147,10 +150,10 @@ class _HeroSectionState extends State<HeroSection>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         "HELLO, I'M",
                         style: TextStyle(
-                          color: gold,
+                          color: palette.accent,
                           letterSpacing: 3,
                           fontWeight: FontWeight.bold,
                         ),
@@ -166,11 +169,13 @@ class _HeroSectionState extends State<HeroSection>
                                 fontSize: narrow ? 38 : 56,
                                 height: 1.1,
                                 fontWeight: FontWeight.w900,
-                                color: Colors.white,
+                                color: palette.textPrimary,
                                 shadows: [
                                   Shadow(
                                     color: gold.withValues(
-                                        alpha: _nameGlowAnimation.value * 0.4),
+                                      alpha: _nameGlowAnimation.value *
+                                          (palette.isDark ? 0.4 : 0.18),
+                                    ),
                                     blurRadius: 18,
                                   ),
                                 ],
@@ -179,7 +184,7 @@ class _HeroSectionState extends State<HeroSection>
                                 TextSpan(
                                   text: 'Rahmad Rinaldi\n',
                                   style: TextStyle(
-                                    color: Colors.white.withValues(
+                                    color: palette.textPrimary.withValues(
                                       alpha: _nameGlowAnimation.value,
                                     ),
                                   ),
@@ -187,7 +192,7 @@ class _HeroSectionState extends State<HeroSection>
                                 TextSpan(
                                   text: 'Abbas',
                                   style: TextStyle(
-                                    color: gold.withValues(
+                                    color: palette.accent.withValues(
                                       alpha: _nameGlowAnimation.value,
                                     ),
                                   ),
@@ -211,10 +216,10 @@ class _HeroSectionState extends State<HeroSection>
 
                           return Text.rich(
                             TextSpan(
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 18,
                                 height: 1.5,
-                                color: Color(0xFFDCE4ED),
+                                color: palette.textSecondary,
                                 fontWeight: FontWeight.w600,
                               ),
                               children: [
@@ -222,7 +227,7 @@ class _HeroSectionState extends State<HeroSection>
                                 TextSpan(
                                   text: '|',
                                   style: TextStyle(
-                                    color: gold.withValues(
+                                    color: palette.accent.withValues(
                                       alpha: showCursor ? 1.0 : 0.0,
                                     ),
                                     fontWeight: FontWeight.w400,
@@ -258,8 +263,8 @@ class _HeroSectionState extends State<HeroSection>
                             icon: const Icon(Icons.mail_outline),
                             label: const Text('Hubungi Saya'),
                             style: OutlinedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              side: const BorderSide(color: gold),
+                              foregroundColor: palette.textPrimary,
+                              side: BorderSide(color: palette.accent),
                             ),
                           ),
                           FilledButton.icon(
@@ -294,9 +299,9 @@ class _HeroSectionState extends State<HeroSection>
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
-                              color: gold.withValues(alpha: 0.04),
+                              color: gold.withValues(alpha: 0.06),
                               border: Border.all(
-                                color: gold.withValues(alpha: 0.25),
+                                color: gold.withValues(alpha: 0.28),
                                 width: 1.5,
                               ),
                             ),
@@ -341,7 +346,9 @@ class _HeroSectionState extends State<HeroSection>
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: gold.withValues(alpha: 0.35),
+                                    color: gold.withValues(
+                                      alpha: palette.isDark ? 0.35 : 0.22,
+                                    ),
                                     blurRadius: 22,
                                     spreadRadius: 2,
                                   ),
@@ -349,7 +356,7 @@ class _HeroSectionState extends State<HeroSection>
                               ),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: ink,
+                                  color: palette.cardBg,
                                   borderRadius: BorderRadius.circular(27),
                                 ),
                                 clipBehavior: Clip.antiAlias,
@@ -361,18 +368,25 @@ class _HeroSectionState extends State<HeroSection>
                                   height: double.infinity,
                                   errorBuilder: (context, error, stackTrace) =>
                                       Container(
-                                    color: panel2,
-                                    child: const Center(
+                                    color: palette.cardBg,
+                                    child: Center(
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          Icon(Icons.broken_image_outlined,
-                                              color: muted, size: 36),
-                                          SizedBox(height: 8),
-                                          Text('Foto belum tersedia',
-                                              style: TextStyle(
-                                                  color: muted, fontSize: 12)),
+                                          Icon(
+                                            Icons.broken_image_outlined,
+                                            color: palette.textSecondary,
+                                            size: 36,
+                                          ),
+                                          const SizedBox(height: 8),
+                                          Text(
+                                            'Foto belum tersedia',
+                                            style: TextStyle(
+                                              color: palette.textSecondary,
+                                              fontSize: 12,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
