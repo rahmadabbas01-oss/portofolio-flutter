@@ -33,7 +33,7 @@ class ProjectsSection extends StatelessWidget {
                 (
                   'Fitpedia',
                   'Aplikasi kesehatan dan kebugaran dengan Flutter, fitur AI, tracking, dan personalisasi.',
-                  'assets/projects/fitpedia.jpeg',
+                  'assets/projects/fitpedia.jpg',
                   ['Flutter', 'Dart', 'SQLite'],
                 ),
                 (

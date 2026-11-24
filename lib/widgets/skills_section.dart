@@ -11,7 +11,6 @@ class SkillsSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SectionTitle(
-            icon: Icons.code_rounded,
             title: 'Skills & Teknologi',
           ),
           const SizedBox(height: 20),
@@ -26,7 +25,6 @@ class SkillsSection extends StatelessWidget {
               final groups = [
                 (
                   'Mobile Development',
-                  Icons.smartphone_rounded,
                   [
                     ('Flutter', 'assets/icons/flutter.png'),
                     ('Dart', 'assets/icons/dart.png'),
@@ -35,7 +33,6 @@ class SkillsSection extends StatelessWidget {
                 ),
                 (
                   'Web Development',
-                  Icons.web_rounded,
                   [
                     ('Laravel', 'assets/icons/laravel.png'),
                     ('PHP', 'assets/icons/php.png'),
@@ -45,13 +42,11 @@ class SkillsSection extends StatelessWidget {
                 ),
                 (
                   'Tools & Others',
-                  Icons.terminal_rounded,
                   [
                     ('Git', 'assets/icons/git.png'),
                     ('Github', 'assets/icons/github.png'),
                     ('Android Studio', 'assets/icons/android_studio.png'),
                     ('VS Code', 'assets/icons/vscode.png'),
-                    
                   ]
                 ),
               ];
@@ -65,8 +60,7 @@ class SkillsSection extends StatelessWidget {
                         width: (c.maxWidth - (count - 1) * 14) / count,
                         child: _skillCard(
                           title: g.$1,
-                          icon: g.$2,
-                          skills: g.$3,
+                          skills: g.$2,
                         ),
                       ),
                     )
@@ -81,7 +75,6 @@ class SkillsSection extends StatelessWidget {
 
   Widget _skillCard({
     required String title,
-    required IconData icon,
     required List<(String, String)> skills,
   }) {
     return Container(
@@ -103,60 +96,49 @@ class SkillsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: gold.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: gold.withValues(alpha: 0.3)),
-                ),
-                child: Icon(icon, color: gold, size: 20),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
+          Text(
+            title,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+              color: Colors.white,
+            ),
           ),
           const SizedBox(height: 16),
           Wrap(
-            spacing: 8,
-            runSpacing: 8,
+            spacing: 12,
+            runSpacing: 12,
             children: skills.map((skill) {
               return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                width: 82,
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                 decoration: BoxDecoration(
-                  color: Colors.transparent, // Background dibuat transparan
-                  borderRadius: BorderRadius.circular(10),
-                  // Dilingkari border berwarna gold dengan transparan tipis mirip gaya Team Player
-                  border: Border.all(color: gold.withValues(alpha: 0.2)),
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: gold.withValues(alpha: 0.22)),
                 ),
-                child: Row(
+                child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Image.asset(
                       skill.$2,
-                      width: 16,
-                      height: 16,
+                      width: 44,
+                      height: 44,
+                      fit: BoxFit.contain,
                       errorBuilder: (context, error, stackTrace) =>
-                          const Icon(Icons.code, size: 16, color: gold),
+                          const Icon(Icons.code, size: 32, color: gold),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(height: 8),
                     Text(
                       skill.$1,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                        fontSize: 12,
+                        fontSize: 11,
                         fontWeight: FontWeight.w500,
-                        color: Colors.white, // Nama aplikasi tetap putih bersih
+                        color: Colors.white,
+                        height: 1.25,
                       ),
                     ),
                   ],

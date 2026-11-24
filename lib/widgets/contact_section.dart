@@ -14,7 +14,7 @@ class _ContactSectionState extends State<ContactSection> {
   final _emailController = TextEditingController();
   final _subjectController = TextEditingController();
   final _messageController = TextEditingController();
-  
+
   bool _isSubmitted = false;
 
   @override
@@ -51,10 +51,12 @@ class _ContactSectionState extends State<ContactSection> {
     });
 
     // Email tujuan utama Anda
-    final String recipientEmail = 'rahmadrinaldiabbas@gmail.com';
-    
+    const String recipientEmail = 'rahmadrinaldiabbas@gmail.com';
+
     // Format isi email otomatis
-    final String emailSubject = Uri.encodeComponent(subject.isNotEmpty ? subject : 'Pesan dari Portofolio - $name');
+    final String emailSubject = Uri.encodeComponent(
+      subject.isNotEmpty ? subject : 'Pesan dari Portofolio - $name',
+    );
     final String emailBody = Uri.encodeComponent(
       'Nama: $name\nEmail Pengirim: $email\n\nPesan:\n$message',
     );
@@ -94,32 +96,23 @@ class _ContactSectionState extends State<ContactSection> {
               ),
               const SizedBox(height: 28),
               _contactInfoCard(
-                icon: Icons.email_outlined,
                 title: 'Email',
                 subtitle: 'rahmadrinaldiabbas@gmail.com',
                 onTap: () => _launchURL('mailto:rahmadrinaldiabbas@gmail.com'),
               ),
               const SizedBox(height: 12),
               _contactInfoCard(
-                icon: Icons.phone_outlined,
                 title: 'WhatsApp / Telepon',
                 subtitle: '+62 853-4091-8541',
                 onTap: () => _launchURL('https://wa.me/6285340918541'),
               ),
               const SizedBox(height: 12),
               _contactInfoCard(
-                icon: Icons.code_rounded,
                 title: 'GitHub',
                 subtitle: 'rahmadabbas01-oss',
                 onTap: () => _launchURL('https://github.com/rahmadabbas01-oss'),
               ),
-              const SizedBox(height: 12),
-              _contactInfoCard(
-                icon: Icons.camera_alt_outlined,
-                title: 'Instagram',
-                subtitle: '@rahmadrabbas',
-                onTap: () => _launchURL('https://instagram.com/rahmadrabbas'),
-              ),
+              
             ],
           );
 
@@ -133,7 +126,7 @@ class _ContactSectionState extends State<ContactSection> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 const SizedBox(height: 16),
-                
+
                 // Notifikasi Sukses Terkirim
                 if (_isSubmitted) ...[
                   Container(
@@ -143,8 +136,8 @@ class _ContactSectionState extends State<ContactSection> {
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: Colors.green.withValues(alpha: 0.4)),
                     ),
-                    child: Row(
-                      children: const [
+                    child: const Row(
+                      children: [
                         Icon(Icons.check, color: Colors.green, size: 18),
                         SizedBox(width: 8),
                         Expanded(
@@ -163,15 +156,15 @@ class _ContactSectionState extends State<ContactSection> {
                 if (isWide)
                   Row(
                     children: [
-                      Expanded(child: _buildField(label: 'Nama', hint: 'Rahmad', controller: _nameController)),
+                      Expanded(child: _buildField(label: 'Nama', hint: 'Rahmad Rinaldi Abbas', controller: _nameController)),
                       const SizedBox(width: 14),
-                      Expanded(child: _buildField(label: 'Email', hint: 'you@email.com', controller: _emailController)),
+                      Expanded(child: _buildField(label: 'Email', hint: 'rahmadrinaldiabbas@gmail.com', controller: _emailController)),
                     ],
                   )
                 else ...[
-                  _buildField(label: 'Nama', hint: 'Rahmad', controller: _nameController),
+                  _buildField(label: 'Nama', hint: 'Rahmad Rinaldi Abbas', controller: _nameController),
                   const SizedBox(height: 14),
-                  _buildField(label: 'Email', hint: 'you@email.com', controller: _emailController),
+                  _buildField(label: 'Email', hint: 'rahmadrinaldiabbas@gmail.com', controller: _emailController),
                 ],
                 const SizedBox(height: 14),
 
@@ -237,7 +230,6 @@ class _ContactSectionState extends State<ContactSection> {
   }
 
   Widget _contactInfoCard({
-    required IconData icon,
     required String title,
     required String subtitle,
     required VoidCallback onTap,
@@ -249,36 +241,22 @@ class _ContactSectionState extends State<ContactSection> {
         borderRadius: BorderRadius.circular(14),
         hoverColor: gold.withValues(alpha: 0.08),
         child: Container(
-          padding: const EdgeInsets.all(12),
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           decoration: BoxDecoration(
             color: panel2,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(color: gold.withValues(alpha: 0.12)),
           ),
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: gold.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(icon, color: gold, size: 20),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title, style: const TextStyle(color: muted, fontSize: 11)),
-                    const SizedBox(height: 2),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
+              Text(title, style: const TextStyle(color: muted, fontSize: 11)),
+              const SizedBox(height: 3),
+              Text(
+                subtitle,
+                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

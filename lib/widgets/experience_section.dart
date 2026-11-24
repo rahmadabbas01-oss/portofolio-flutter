@@ -13,8 +13,15 @@ class ExperienceSection extends StatelessWidget {
           const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SectionTitle(icon: Icons.work_outline, title: 'Pengalaman & Proyek'),
+              SectionTitle(title: 'Pengalaman & Proyek'),
               SizedBox(height: 18),
+              _TimelineItem(
+                title: 'Admin — PT. Farzana Berkat Mandiri',
+                detail:
+                    'Menangani administrasi perkantoran, entri data, pengarsipan dokumen, serta pelaporan operasional '
+                    'menggunakan Microsoft Office (Excel, Word, PowerPoint) dengan ketelitian tinggi dan proses kerja yang terstruktur.',
+              ),
+              SizedBox(height: 16),
               _TimelineItem(
                 title: 'Flutter Mobile Developer',
                 detail:

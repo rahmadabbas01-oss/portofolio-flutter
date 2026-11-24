@@ -44,34 +44,20 @@ Widget card(Widget child) {
 }
 
 class SectionTitle extends StatelessWidget {
-  final IconData icon;
+  final IconData? icon;
   final String title;
 
-  const SectionTitle({super.key, required this.icon, required this.title});
+  const SectionTitle({super.key, this.icon, required this.title});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: gold.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: gold.withValues(alpha: 0.3)),
-          ),
-          child: Icon(icon, color: gold, size: 20),
-        ),
-        const SizedBox(width: 12),
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 0.5,
-          ),
-        ),
-      ],
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
+        letterSpacing: 0.5,
+      ),
     );
   }
 }

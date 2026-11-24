@@ -23,12 +23,24 @@ class HeroSection extends StatefulWidget {
 
 class _HeroSectionState extends State<HeroSection>
     with TickerProviderStateMixin {
+  static const String _roleText =
+      'Administration & IT Specialist | PHP • Laravel • Flutter | Web & Mobile Application Development | Process Improvement';
+
   late AnimationController _introController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
 
   late AnimationController _pulseController;
   late Animation<double> _scaleAnimation;
+
+  // Controller khusus untuk animasi kilau pada seluruh nama lengkap
+  late AnimationController _nameGlowController;
+  late Animation<double> _nameGlowAnimation;
+
+  // Controller untuk animasi mengetik dan kursor berkedip
+  late AnimationController _typewriterController;
+  late AnimationController _cursorController;
+  bool _isWaitingBeforeRestart = false;
 
   @override
   void initState() {
@@ -64,12 +76,47 @@ class _HeroSectionState extends State<HeroSection>
     _scaleAnimation = Tween<double>(begin: 1.0, end: 1.04).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
+
+    // Controller untuk efek kedip/kilau halus pada nama lengkap
+    _nameGlowController = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _nameGlowAnimation = Tween<double>(begin: 0.7, end: 1.0).animate(
+      CurvedAnimation(parent: _nameGlowController, curve: Curves.easeInOut),
+    );
+
+    // Controller animasi mengetik lebih pelan (~180ms per karakter)
+    _typewriterController = AnimationController(
+      duration: Duration(milliseconds: _roleText.length * 800),
+      vsync: this,
+    )..addStatusListener((status) {
+        if (status == AnimationStatus.completed && !_isWaitingBeforeRestart) {
+          _isWaitingBeforeRestart = true;
+          Future.delayed(const Duration(seconds: 4), () {
+            if (!mounted) return;
+            _isWaitingBeforeRestart = false;
+            _typewriterController.forward(from: 0);
+          });
+        }
+      });
+
+    _cursorController = AnimationController(
+      duration: const Duration(milliseconds: 700),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _typewriterController.forward();
   }
 
   @override
   void dispose() {
     _introController.dispose();
     _pulseController.dispose();
+    _nameGlowController.dispose();
+    _typewriterController.dispose();
+    _cursorController.dispose();
     super.dispose();
   }
 
@@ -109,35 +156,84 @@ class _HeroSectionState extends State<HeroSection>
                         ),
                       ),
                       const SizedBox(height: 12),
-                      RichText(
-                        text: TextSpan(
-                          style: TextStyle(
-                            fontSize: narrow ? 42 : 62,
-                            height: 1.05,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                          ),
-                          children: const [
-                            TextSpan(text: 'Rahmad Rinaldi\n'),
-                            TextSpan(text: 'Abbas', style: TextStyle(color: gold)),
-                          ],
-                        ),
+                      // Animasi Kilau/Glow pada Seluruh Nama Lengkap (Rahmad Rinaldi Abbas)
+                      AnimatedBuilder(
+                        animation: _nameGlowAnimation,
+                        builder: (context, child) {
+                          return RichText(
+                            text: TextSpan(
+                              style: TextStyle(
+                                fontSize: narrow ? 38 : 56,
+                                height: 1.1,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white,
+                                shadows: [
+                                  Shadow(
+                                    color: gold.withValues(
+                                        alpha: _nameGlowAnimation.value * 0.4),
+                                    blurRadius: 18,
+                                  ),
+                                ],
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'Rahmad Rinaldi\n',
+                                  style: TextStyle(
+                                    color: Colors.white.withValues(
+                                      alpha: _nameGlowAnimation.value,
+                                    ),
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'Abbas',
+                                  style: TextStyle(
+                                    color: gold.withValues(
+                                      alpha: _nameGlowAnimation.value,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(height: 16),
-                      const Text(
-                        'Flutter Developer & Web Developer',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Color(0xFFDCE4ED),
-                          fontWeight: FontWeight.w600,
-                        ),
+                      AnimatedBuilder(
+                        animation: Listenable.merge(
+                            [_typewriterController, _cursorController]),
+                        builder: (context, child) {
+                          final charCount =
+                              (_typewriterController.value * _roleText.length)
+                                  .round()
+                                  .clamp(0, _roleText.length);
+                          final visibleText = _roleText.substring(0, charCount);
+                          final showCursor = _cursorController.value > 0.5;
+
+                          return Text.rich(
+                            TextSpan(
+                              style: const TextStyle(
+                                fontSize: 18,
+                                height: 1.5,
+                                color: Color(0xFFDCE4ED),
+                                fontWeight: FontWeight.w600,
+                              ),
+                              children: [
+                                TextSpan(text: visibleText),
+                                TextSpan(
+                                  text: '|',
+                                  style: TextStyle(
+                                    color: gold.withValues(
+                                      alpha: showCursor ? 1.0 : 0.0,
+                                    ),
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
-                      const SizedBox(height: 14),
-                      const Text(
-                        'Saya seorang pengembang aplikasi yang tertarik membangun solusi digital yang modern, bermanfaat, dan mudah digunakan. Saya berfokus pada aplikasi mobile dengan Flutter serta pengembangan web.',
-                        style: TextStyle(color: muted, height: 1.7, fontSize: 15),
-                      ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 26),
                       Wrap(
                         spacing: 12,
                         runSpacing: 10,
@@ -146,7 +242,8 @@ class _HeroSectionState extends State<HeroSection>
                           ScaleTransition(
                             scale: _scaleAnimation,
                             child: FilledButton.icon(
-                              onPressed: () => widget.onNavigate(widget.projectsKey),
+                              onPressed: () =>
+                                  widget.onNavigate(widget.projectsKey),
                               icon: const Icon(Icons.work_outline),
                               label: const Text('Lihat Proyek'),
                               style: FilledButton.styleFrom(
@@ -156,7 +253,8 @@ class _HeroSectionState extends State<HeroSection>
                             ),
                           ),
                           OutlinedButton.icon(
-                            onPressed: () => widget.onNavigate(widget.contactKey),
+                            onPressed: () =>
+                                widget.onNavigate(widget.contactKey),
                             icon: const Icon(Icons.mail_outline),
                             label: const Text('Hubungi Saya'),
                             style: OutlinedButton.styleFrom(
@@ -210,7 +308,8 @@ class _HeroSectionState extends State<HeroSection>
                     AnimatedBuilder(
                       animation: widget.rotationController,
                       builder: (context, child) {
-                        final angle = widget.rotationController.value * 2 * math.pi;
+                        final angle =
+                            widget.rotationController.value * 2 * math.pi;
                         return ConstrainedBox(
                           constraints: const BoxConstraints(maxWidth: 280),
                           child: AspectRatio(
@@ -230,7 +329,15 @@ class _HeroSectionState extends State<HeroSection>
                                     Color(0xFFB8860B),
                                     Color(0xFFFFD700),
                                   ],
-                                  stops: const [0.0, 0.18, 0.32, 0.48, 0.55, 0.78, 1.0],
+                                  stops: const [
+                                    0.0,
+                                    0.18,
+                                    0.32,
+                                    0.48,
+                                    0.55,
+                                    0.78,
+                                    1.0
+                                  ],
                                 ),
                                 boxShadow: [
                                   BoxShadow(
@@ -252,15 +359,20 @@ class _HeroSectionState extends State<HeroSection>
                                   alignment: Alignment.bottomCenter,
                                   width: double.infinity,
                                   height: double.infinity,
-                                  errorBuilder: (context, error, stackTrace) => Container(
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Container(
                                     color: panel2,
                                     child: const Center(
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
-                                          Icon(Icons.broken_image_outlined, color: muted, size: 36),
+                                          Icon(Icons.broken_image_outlined,
+                                              color: muted, size: 36),
                                           SizedBox(height: 8),
-                                          Text('Foto belum tersedia', style: TextStyle(color: muted, fontSize: 12)),
+                                          Text('Foto belum tersedia',
+                                              style: TextStyle(
+                                                  color: muted, fontSize: 12)),
                                         ],
                                       ),
                                     ),

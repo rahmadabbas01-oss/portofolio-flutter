@@ -13,19 +13,17 @@ class AboutSection extends StatelessWidget {
           SectionTitle(icon: Icons.person_outline, title: 'Tentang Saya'),
           SizedBox(height: 14),
           Text(
-            'Saya senang mempelajari teknologi baru, memecahkan masalah, dan mengubah ide menjadi produk digital. '
-            'Saya percaya aplikasi yang baik harus fungsional, nyaman digunakan, dan memberi dampak nyata.',
+            'Lulusan S1 Sistem Informasi dengan pengalaman 5 tahun sebagai Admin. '
+            'Menguasai administrasi perkantoran, entri data, pengarsipan, serta Microsoft Office (Excel, Word, PowerPoint), '
+            'didukung keahlian teknis dalam pengembangan web (PHP/Laravel) dan aplikasi mobile (Flutter). '
+            'Pribadi yang komunikatif dan teliti, antusias berkolaborasi menghadirkan solusi digital yang fungsional dan berdampak.',
             style: TextStyle(color: muted, height: 1.8),
           ),
           SizedBox(height: 20),
           Wrap(
             spacing: 10,
             runSpacing: 10,
-            children: [
-              _Feature(icon: Icons.lightbulb_outline, title: 'Problem Solver'),
-              _Feature(icon: Icons.groups_outlined, title: 'Team Player'),
-              _Feature(icon: Icons.school_outlined, title: 'Continuous Learner'),
-            ],
+            
           ),
         ],
       ),
@@ -38,6 +36,7 @@ class AboutSection extends StatelessWidget {
   }
 }
 
+// ignore: unused_element
 class _Feature extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -57,7 +56,14 @@ class _Feature extends StatelessWidget {
         children: [
           Icon(icon, color: gold, size: 16),
           const SizedBox(width: 8),
-          Text(title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white70)),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: Colors.white70,
+            ),
+          ),
         ],
       ),
     );
